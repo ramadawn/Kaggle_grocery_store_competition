@@ -56,8 +56,9 @@ counter = 1
 entry_counter = 0
 train_entries = 0
 test_entries = 0
-FN_counter = 0
+
 counter_ref = 0
+
 #open Data file
 csv_file = csv.reader(open('train.csv', newline=''))
 
@@ -97,83 +98,89 @@ item_digits = 22
 ##        
 ##print("Item Number Range = ",max_item_number)
 ##print("Store Number Range = ", max_store_number)
-rnd_int = random.randint(0,29)
+
+
+
+range_of_random_jump_interval = int(input("range of random jump interval (8GB RAM = 50): "))
+rnd_int = random.randint(0, range_of_random_jump_interval)
 jump_counter = 0
 
-datasets = int(input("Enter Number Of Data Sets to be Generated : "))
-
 #read through file line by line
-for number in range(datasets - 1):
-    for line in csv_file:
-        counter += 1
 
-        if jump_counter != rnd_int:
-            jump_counter += 1
-            continue
+     
+for line in csv_file:
+    counter += 1
 
-        else:
-            jump_counter = 0
-        rnd_int = random.randint(0,29) 
+    if jump_counter != rnd_int:
+        jump_counter += 1
+        continue
+
+    else:
+        jump_counter = 0
+
+    rnd_int = random.randint(0 , range_of_random_jump_interval) 
         
     #random number to seperate out train and test sets
-        r_number = random.random()
+    r_number = random.random()
     # nested lists to be instered in pickled lists; empty out every pass
-        train_append_mini_list = []
-        test_append_mini_list  = []
+    train_append_mini_list = []
+    test_append_mini_list  = []
 
     #parsing out data from csv file
-        input_date = line[1]
-        store_nbr = line[2]
-        item_nbr = line[3]
-        unit_sales = line[4]
-        promotion = line[5]
+    input_date = line[1]
+    store_nbr = line[2]
+    item_nbr = line[3]
+    unit_sales = line[4]
+    promotion = line[5]
 
     #run time counters
-        if counter % 500000 == 0:
-            print("Scanned = ",counter/1000000, " M")
-            print("Added = ", entry_counter/1000000, " M")
-            print("Size of Training Set = ", train_entries/1000000, " M") 
-            print("Size of Testing Set = ", test_entries/1000000, " M" )
-            print("                 ")
+    if counter % 500000 == 0:
+      
+        print("Scanned = ",counter/1000000, " M")
+        print("Added = ", entry_counter/1000000, " M")
+        print("Size of Training Set = ", train_entries/1000000, " M") 
+        print("Size of Testing Set = ", test_entries/1000000, " M" )
+        print("                 ")
     
 
    # converts date in year and day number IE feb 2nd is day number 32
-        day_number, year = day_return(input_date)  
+    day_number, year = day_return(input_date)  
 
     #removes bad dates from dataset
-        if day_number == False:
-            continue
+    if day_number == False:
+        continue
 
-        elif promotion == '':
-            continue 
+    elif promotion == '':
+        continue 
 
     #converts promotion strings into boolian, removes missing or bad data
     
-        elif promotion == 'False':
-            promotion = 0
+    elif promotion == 'False':
+        promotion = 0
 
-        elif promotion == 'True':
-            promotion = 1
+    elif promotion == 'True':
+        promotion = 1
 
-        else:
-            print("Invalid Entry")
-            print(line)
-            input()
-            continue
+    else:
+        print("Invalid Entry")
+        print(line)
+        input()
+        continue
 
    
 
     # encoding for store and items
 
-        item_nbr = int(item_nbr)
-        store_nbr = int(store_nbr)
+    item_nbr = int(item_nbr)
+    store_nbr = int(store_nbr)
+    unit_sales = float(unit_sales)
 
-        item_array = feature_encoder(item_nbr, item_digits) 
-        store_array = feature_encoder(store_nbr, store_digits)
+    item_array = feature_encoder(item_nbr, item_digits) 
+    store_array = feature_encoder(store_nbr, store_digits)
 
     
     #tracks number of data pionts accepted
-        entry_counter += 1
+    entry_counter += 1
 
     
     #converts all data pionts to either boolian or integers
@@ -181,18 +188,18 @@ for number in range(datasets - 1):
 
 
     #culls out 30% of entries for test set
-        if r_number > 0.7:
-           test_entries += 1
-           train_append_mini_list =  create_append_list(year, day_number, store_array, item_array, promotion, unit_sales)
+    if r_number > 0.7:
+        test_entries += 1
+        train_append_mini_list =  create_append_list(year, day_number, store_array, item_array, promotion, unit_sales)
        
     #builds test data and test labels
-           Test_set.append(train_append_mini_list)
+        Test_set.append(train_append_mini_list)
        
 
       
-        else: #builds train data, train labels and an integrety file to ensure both properly match
-            train_entries += 1
-            train_append_mini_list =  create_append_list(year, day_number, store_array, item_array, promotion, unit_sales)
+    else: #builds train data, train labels and an integrety file to ensure both properly match
+        train_entries += 1
+        train_append_mini_list =  create_append_list(year, day_number, store_array, item_array, promotion, unit_sales)
 ##
 ##        Integrity_list.append(year)
 ##        Integrity_list.append(day_number)
@@ -201,47 +208,55 @@ for number in range(datasets - 1):
 ##        Integrity_list.append(promotion)
 ##        Integrity_list.append(unit_sales) 
  ##       Train_list_Integrity.append(Integrity_list)
-            Train_set.append(train_append_mini_list)
+        Train_set.append(train_append_mini_list)
         
     # every 4 million entries are appended to the pickle files
-        if entry_counter % 4000000 == 0:
+    
 
-
-            Test_data, Test_labels = randomize_list_seperate_data_labels(Test_set)
-            Train_data, Train_labels = randomize_list_seperate_data_labels(Train_set)
-
-            Test_set = []
-            Train_set = []
-        
-            np.asarray(Test_data, dtype=object )
-            np.asarray(Test_labels, dtype=object)
-            np.asarray(Train_data, dtype=object)
-            np.asarray(Train_labels, dtype=object)
+            
  
+Test_data, Test_labels = randomize_list_seperate_data_labels(Test_set)
+Train_data, Train_labels = randomize_list_seperate_data_labels(Train_set)
 
-            FN_counter += 1
-            counter_ref = str(FN_counter)
-            nametrain_data = "Cleaned_Training_Data" + counter_ref + ".pickle"
-            nametrain_label = "Cleaned_Training_Labels" + counter_ref + ".pickle"
-##        integrity = "Cleaned_Training_Data_Integrity" + counter_ref + ".pickle"
-            nametest_data = "Cleaned_Testing_Data" + counter_ref + ".pickle" 
-            nametest_label = "Cleaned_Testing_Labels" + counter_ref + ".pickle" 
+Test_set = []
+Train_set = []
+        
+np.asarray(Test_data, dtype=object )
+np.asarray(Test_labels, dtype=object)
+np.asarray(Train_data, dtype=object)
+np.asarray(Train_labels, dtype=object)
 
-            pickle_out(nametest_label , Test_labels) 
+file_number = input("Enter File Number : ") 
 
-            Test_labels = []
 
-            pickle_out(nametrain_label , Train_labels)  
+nametrain_data = "Cleaned_Training_Data" + file_number + ".pickle"
+nametrain_label = "Cleaned_Training_Labels" + file_number  + ".pickle"
+nametest_data = "Cleaned_Testing_Data" + file_number  + ".pickle" 
+nametest_label = "Cleaned_Testing_Labels" + file_number  + ".pickle" 
 
-            Train_labels = []
+pickle_out(nametest_label , Test_labels) 
 
-            pickle_out(nametest_data , Test_data)
 
-            Test_data = []
+del Test_labels [:]
+del Test_labels 
 
-            pickle_out(nametrain_data , Train_data) 
+pickle_out(nametrain_label , Train_labels)  
 
-            Train_data = [] 
+del Train_labels [:]
+del Train_labels 
+
+pickle_out(nametest_data , Test_data)
+
+del Test_data [:]
+del Test_data 
+
+pickle_out(nametrain_data , Train_data) 
+
+Train_data = []
+
+print("Data Used = ",entry_counter) 
+print("Size of Training Set = ", train_entries) 
+print("Size of Testing Set = ", test_entries ) 
 
 ##        Train_out_Integrity = open(integrity , "ab")
 ##        print("Pickling Data Integrity : ")
@@ -259,39 +274,9 @@ for number in range(datasets - 1):
         
         
 #To catch last remaining data one recursion ends.
-    np.asarray(Test_data, dtype=object )
-    np.asarray(Test_labels, dtype=object)
-    np.asarray(Train_data, dtype=object)
-    np.asarray(Train_labels, dtype=object)
- 
+    
 
-    FN_counter += 1
-    counter_ref = str(FN_counter)
-    nametrain_data = "Cleaned_Training_Data" + counter_ref + ".pickle"
-    nametrain_label = "Cleaned_Training_Labels" + counter_ref + ".pickle"
-##        integrity = "Cleaned_Training_Data_Integrity" + counter_ref + ".pickle"
-    nametest_data = "Cleaned_Testing_Data" + counter_ref + ".pickle" 
-    nametest_label = "Cleaned_Testing_Labels" + counter_ref + ".pickle" 
-
-    pickle_out(nametest_label , Test_labels) 
-
-    Test_labels = []
-
-    pickle_out(nametrain_label , Train_labels)  
-
-    Train_labels = []
-
-    pickle_out(nametest_data , Test_data)
-
-    Test_data = []
-
-    pickle_out(nametrain_data , Train_data) 
-
-    Train_data = [] 
-
-    print("Data Used = ",entry_counter) 
-    print("Size of Training Set = ", train_entries) 
-    print("Size of Testing Set = ", test_entries ) 
+    
         
    
    
