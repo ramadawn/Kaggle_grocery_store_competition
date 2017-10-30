@@ -28,7 +28,7 @@ Test_data = np.asarray(Test_data, dtype=object)
 Train_labels = np.asarray(Train_labels, dtype=object)
 Test_labels = np.asarray(Test_labels, dtype=object)
 
-Train_data = np.reshape(1,Train_data,1)
+Train_data = np.reshape(1,Train_data.shape[0],Train_data.shape[1],1)
 
 #parameter
 
