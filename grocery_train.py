@@ -1,16 +1,13 @@
 import struct
 import numpy as np
 from PIL import Image
-import keras
 
-from keras import backend as K
 import pickle
 
-from keras.preprocessing import sequence
+import keras
 from keras.models import Sequential
-from keras.layers import Dense, Embedding
-from keras.layers import LSTM
-from keras.datasets import imdb
+from keras.layers import Dense, Dropout, Activation
+from keras.optimizers import SGD
 
 #import in dataset
 
