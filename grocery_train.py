@@ -1,13 +1,16 @@
 import struct
 import numpy as np
 from PIL import Image
+import keras
 
+from keras import backend as K
 import pickle
 
-import keras
+from keras.preprocessing import sequence
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Activation, Flatten
-from keras.optimizers import SGD
+from keras.layers import Dense, Embedding
+from keras.layers import LSTM
+from keras.datasets import imdb
 
 #import in dataset
 
@@ -28,23 +31,14 @@ Test_data = np.asarray(Test_data, dtype=object)
 Train_labels = np.asarray(Train_labels, dtype=object)
 Test_labels = np.asarray(Test_labels, dtype=object)
 
-Train_data = np.reshape(1,Train_data.shape,1,1)
-Test_data = np.reshape(1,Test_data.shape,1,1)
-Train_labels = np.reshape(1,Test_labels.shape,1,1)
-Test_labels = np.reshape(1,Test_labels.shape,1,1)
-
-print(Train_data.shape)
-
 #parameter
 
 #Number_Classes = 27
-batch_size = 1024
-epochs = 1
+batch_size = 64
+epochs = 5
 depth = 1
-num_classes = 2127114
-data_dim = 16
-timesteps = 8
-
+max_features = 2127114
+embedding_dims = 5
 
 
 #Shape Data
@@ -57,18 +51,10 @@ timesteps = 8
 #initialize model
 
 print('Build model...')
-
 model = Sequential()
-model.add(Dense(num_classes, activation='relu', input_shape = (289416, 1)))
-model.add(Dropout(0.5))
-model.add(Dense(num_classes, activation='relu'))
-model.add(Dropout(0.5))
-model.add(Dense(num_classes, activation='softmax'))
-
-sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
-model.compile(loss='categorical_crossentropy',
-              optimizer=sgd,
-              metrics=['accuracy'])
+model.add(Embedding(max_features, 128))
+model.add(LSTM(128, dropout=0.2, recurrent_dropout=0.2))
+model.add(Dense(1, activation='sigmoid'))
 
 # try using different optimizers and different optimizer configs
 model.compile(loss='binary_crossentropy',
