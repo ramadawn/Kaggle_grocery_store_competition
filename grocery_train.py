@@ -33,7 +33,7 @@ Test_data = np.reshape(Test_data.shape,1)
 Train_labels = np.reshape(Test_labels.shape,1)
 Test_labels = np.reshape(Test_labels.shape,1)
 
-
+print(Train_data.shape)
 
 #parameter
 
