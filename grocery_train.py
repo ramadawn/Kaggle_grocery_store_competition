@@ -30,6 +30,8 @@ Test_labels = np.asarray(Test_labels, dtype=object)
 
 Train_data = np.reshape(Train_data.shape[0],1,1)
 Test_data = np.reshape(Test_data.shape[0],1,1)
+Train_labels = np.reshape(Test_labels.shape[0],1,1)
+Test_labels = np.reshape(Test_labels.shape[0],1,1)
 
 
 
