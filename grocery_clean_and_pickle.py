@@ -45,7 +45,7 @@ def randomize_list_seperate_data_labels(set_list):
     data = []
     for line in set_list:
         normalize = line[5]
-        normalize = (normalize + 15373)/89440.0
+        normalize = normalize + 15373
         labels.append(normalize)
         data.append(line[:5])
 
