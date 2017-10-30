@@ -63,7 +63,6 @@ model.add(Dense(num_classes, activation='relu', input_shape=Train_data.shape))
 model.add(Dropout(0.5))
 model.add(Dense(num_classes, activation='relu'))
 model.add(Dropout(0.5))
-model.add(Flatten())
 model.add(Dense(num_classes, activation='softmax'))
 
 sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
