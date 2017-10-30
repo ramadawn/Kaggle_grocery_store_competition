@@ -34,8 +34,8 @@ Test_labels = np.asarray(Test_labels, dtype=object)
 #parameter
 
 #Number_Classes = 27
-batch_size = 64
-epochs = 5
+batch_size = 100
+epochs = 1000
 depth = 1
 max_features = 2127114
 embedding_dims = 5
@@ -52,8 +52,8 @@ embedding_dims = 5
 
 print('Build model...')
 model = Sequential()
-model.add(Embedding(max_features, 128))
-model.add(LSTM(128, dropout=0.2, recurrent_dropout=0.2))
+model.add(Embedding(max_features, 1024))
+model.add(LSTM(1024, dropout=0.2, recurrent_dropout=0.2))
 model.add(Dense(1, activation='sigmoid'))
 
 # try using different optimizers and different optimizer configs
