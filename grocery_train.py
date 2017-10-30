@@ -38,7 +38,8 @@ batch_size = 1024
 epochs = 1
 depth = 1
 max_features = 2127114
-embedding_dims = 5
+data_dim = 16
+timesteps = 8
 
 
 #Shape Data
@@ -53,8 +54,8 @@ embedding_dims = 5
 print('Build model...')
 model = Sequential()
 model.add(Dense(max_features, input_shape=(batch_size, 5)))
-model.add(LSTM(1024, return_sequences=True, stateful=True, dropout=0.2, recurrent_dropout=0.2))
-model.add(LSTM(1024, return_sequences=True, stateful=True, dropout=0.5, recurrent_dropout=0.5))
+model.add(LSTM(1024, return_sequences=True, stateful=True,  input_shape=(timesteps, data_dim)))
+model.add(LSTM(1024, return_sequences=True, stateful=True,))
 model.add(LSTM(1024, stateful=True))
 model.add(Dense(max_features, activation='softmax'))
 
