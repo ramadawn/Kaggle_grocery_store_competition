@@ -53,7 +53,7 @@ embedding_dims = 5
 print('Build model...')
 model = Sequential()
 model.add(Embedding(max_features, 1024))
-model.add(LSTM(dropout=0.2, recurrent_dropout=0.2))
+model.add(LSTM(1024, dropout=0.2, recurrent_dropout=0.2))
 model.add(LSTM(dropout=0.5, recurrent_dropout=0.5))
 model.add(Dense(1, activation='relu'))
 
