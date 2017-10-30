@@ -52,9 +52,9 @@ embedding_dims = 5
 
 print('Build model...')
 model = Sequential()
-model.add(Embedding(max_features, 128))
-model.add(LSTM(128, dropout=0.2, recurrent_dropout=0.2))
-model.add(Dense(1, activation='sigmoid'))
+model.add(Embedding(max_features, 1024))
+model.add(LSTM(1024))
+model.add(Dense(max_features, activation='sigmoid'))
 
 # try using different optimizers and different optimizer configs
 model.compile(loss='binary_crossentropy',
