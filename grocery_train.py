@@ -29,7 +29,7 @@ Train_labels = np.asarray(Train_labels, dtype=object)
 Test_labels = np.asarray(Test_labels, dtype=object)
 
 
-Train_data = np.reshape(1,Train_data.shape[0],5,)
+
 
 #parameter
 
@@ -54,7 +54,7 @@ timesteps = 8
 print('Build model...')
 
 model = Sequential()
-model.add(Dense(num_classes, activation='relu', input_shape=(batch_size,5,1)))
+model.add(Dense(num_classes, activation='relu', input_shape=(Train_data.shape[0],1)))
 model.add(Dropout(0.5))
 model.add(Dense(num_classes, activation='relu'))
 model.add(Dropout(0.5))
