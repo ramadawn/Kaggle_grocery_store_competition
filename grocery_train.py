@@ -37,7 +37,7 @@ Test_labels = np.asarray(Test_labels, dtype=object)
 batch_size = 1024
 epochs = 1
 depth = 1
-max_features = 2127114
+num_classes = 2127114
 data_dim = 16
 timesteps = 8
 
@@ -52,12 +52,13 @@ timesteps = 8
 #initialize model
 
 print('Build model...')
+
 model = Sequential()
-model.add(Dense(max_features, input_shape=(batch_size, 5)))
-model.add(LSTM(1024, return_sequences=True, stateful=True,  input_shape=(timesteps, data_dim)))
-model.add(LSTM(1024, return_sequences=True, stateful=True,))
-model.add(LSTM(1024, stateful=True))
-model.add(Dense(max_features, activation='softmax'))
+model.add(LSTM(num_classes, return_sequences=True, stateful=True,
+               batch_input_shape=(batch_size, timesteps, data_dim)))
+model.add(LSTM(num_classes, return_sequences=True, stateful=True))
+model.add(LSTM(num_classes, stateful=True))
+model.add(Dense(num_classes, activation='softmax'))
 
 model.compile(loss='categorical_crossentropy',
               optimizer='rmsprop',
