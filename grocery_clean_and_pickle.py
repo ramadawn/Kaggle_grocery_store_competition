@@ -38,13 +38,15 @@ def create_append_list(year, day_number, store_array, item_array, promotion, uni
     return return_array
 
 def randomize_list_seperate_data_labels(set_list):
-
+#randmozies and normalizes data and seperates data into data and label sets
     random.shuffle(set_list)
 
     labels = []
     data = []
     for line in set_list:
-        labels.append(line[5])
+        normalize = line[5]
+        normalize = (normalize + 15373)/89440.0
+        labels.append(normalize)
         data.append(line[:5])
 
     return data, labels
