@@ -28,6 +28,9 @@ Test_data = np.asarray(Test_data, dtype=object)
 Train_labels = np.asarray(Train_labels, dtype=object)
 Test_labels = np.asarray(Test_labels, dtype=object)
 
+Train_data = np.reshape(Train_data.shape[0],1,1)
+Test_data = np.reshape(Test_data.shape[0],1,1)
+
 
 
 
@@ -40,6 +43,7 @@ depth = 1
 num_classes = 2127114
 data_dim = 16
 timesteps = 8
+
 
 
 #Shape Data
