@@ -53,7 +53,7 @@ embedding_dims = 5
 print('Build model...')
 model = Sequential()
 
-model.add(Embedding(max_features, 1024))
+model.add(Embedding(Train_data.shape, 1024))
 model.add(Flatten())
 model.add(LSTM(1024))
 model.add(Dense(max_features, activation='sigmoid'))
