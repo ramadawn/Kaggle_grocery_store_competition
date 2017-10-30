@@ -59,7 +59,7 @@ timesteps = 8
 print('Build model...')
 
 model = Sequential()
-model.add(Dense(num_classes, activation='relu', input_shape=(Train_data.shape[0],1)))
+model.add(Dense(num_classes, activation='relu', input_shape=Train_data.shape[1:]))
 model.add(Dropout(0.5))
 model.add(Dense(num_classes, activation='relu'))
 model.add(Dropout(0.5))
