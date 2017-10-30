@@ -51,7 +51,7 @@ timesteps = 8
 print('Build model...')
 
 model = Sequential()
-model.add(Dense(num_classes, activation='relu', input_shape=(num_classes,5)))
+model.add(Dense(num_classes, activation='relu', input_shape=(batch_size,5,1)))
 model.add(Dropout(0.5))
 model.add(Dense(num_classes, activation='relu'))
 model.add(Dropout(0.5))
