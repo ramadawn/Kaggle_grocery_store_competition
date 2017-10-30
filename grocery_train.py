@@ -54,14 +54,15 @@ timesteps = 8
 print('Build model...')
 
 model = Sequential()
-model.add(LSTM(num_classes, return_sequences=True, stateful=True,
-               batch_input_shape=(batch_size, timesteps, data_dim)))
-model.add(LSTM(num_classes, return_sequences=True, stateful=True))
-model.add(LSTM(num_classes, stateful=True))
+model.add(Dense(num_classes, activation='relu', input_dim=5))
+model.add(Dropout(0.5))
+model.add(Dense(num_classes, activation='relu'))
+model.add(Dropout(0.5))
 model.add(Dense(num_classes, activation='softmax'))
 
+sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
 model.compile(loss='categorical_crossentropy',
-              optimizer='rmsprop',
+              optimizer=sgd,
               metrics=['accuracy'])
 
 # try using different optimizers and different optimizer configs
