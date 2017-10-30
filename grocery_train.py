@@ -52,7 +52,7 @@ embedding_dims = 5
 
 print('Build model...')
 model = Sequential()
-model.add(Dense(max_features, input_shape=(batch_size, Train_data.shape)))
+model.add(Dense(max_features, input_shape=(batch_size, 5)))
 model.add(LSTM(1024, return_sequences=True, stateful=True, dropout=0.2, recurrent_dropout=0.2))
 model.add(LSTM(1024, return_sequences=True, stateful=True, dropout=0.5, recurrent_dropout=0.5))
 model.add(LSTM(1024, stateful=True))
