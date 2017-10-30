@@ -6,7 +6,7 @@ import pickle
 
 import keras
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Activation
+from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.optimizers import SGD
 
 #import in dataset
