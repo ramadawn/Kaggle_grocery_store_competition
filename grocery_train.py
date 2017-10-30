@@ -34,7 +34,7 @@ Test_labels = np.asarray(Test_labels, dtype=object)
 #parameter
 
 #Number_Classes = 27
-batch_size = 64
+batch_size = 1024
 epochs = 1
 depth = 1
 max_features = 2127114
